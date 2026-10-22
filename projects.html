@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Aidan Mark — developer in Edmonton. Software, robotics, machine learning, and things I made.">
+<title>Projects — Aidan Mark</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="page">
+<header class="header">
+  <div class="hello">Hello! I'm</div>
+  <h1 class="visually-hidden">Aidan Mark</h1>
+  <pre aria-hidden="true" class="name-ascii full">       _               ___                         ___       ___                  ___
+      dM.     68b      `MM                        `MMb     dMM&#x27;                 `MM
+     ,MMb     Y89       MM                         MMM.   ,PMM                   MM
+     d&#x27;YM.    ___   ____MM    ___    ___  __       M`Mb   d&#x27;MM    ___    ___  __ MM   __
+    ,P `Mb    `MM  6MMMMMM  6MMMMb   `MM 6MMb      M YM. ,P MM  6MMMMb   `MM 6MM MM   d&#x27;
+    d&#x27;  YM.    MM 6M&#x27;  `MM 8M&#x27;  `Mb   MMM9 `Mb     M `Mb d&#x27; MM 8M&#x27;  `Mb   MM69 &quot; MM  d&#x27;
+   ,P   `Mb    MM MM    MM     ,oMM   MM&#x27;   MM     M  YM.P  MM     ,oMM   MM&#x27;    MM d&#x27;
+   d&#x27;    YM.   MM MM    MM ,6MM9&#x27;MM   MM    MM     M  `Mb&#x27;  MM ,6MM9&#x27;MM   MM     MMdM.
+  ,MMMMMMMMb   MM MM    MM MM&#x27;   MM   MM    MM     M   YP   MM MM&#x27;   MM   MM     MMPYM.
+  d&#x27;      YM.  MM YM.  ,MM MM.  ,MM   MM    MM     M   `&#x27;   MM MM.  ,MM   MM     MM  YM.
+_dM_     _dMM__MM_ YMMMMMM_`YMMM9&#x27;Yb._MM_  _MM_   _M_      _MM_`YMMM9&#x27;Yb._MM_   _MM_  YM._</pre>
+  <pre aria-hidden="true" class="name-ascii stacked">       _               ___
+      dM.     68b      `MM
+     ,MMb     Y89       MM
+     d&#x27;YM.    ___   ____MM    ___    ___  __
+    ,P `Mb    `MM  6MMMMMM  6MMMMb   `MM 6MMb
+    d&#x27;  YM.    MM 6M&#x27;  `MM 8M&#x27;  `Mb   MMM9 `Mb
+   ,P   `Mb    MM MM    MM     ,oMM   MM&#x27;   MM
+   d&#x27;    YM.   MM MM    MM ,6MM9&#x27;MM   MM    MM
+  ,MMMMMMMMb   MM MM    MM MM&#x27;   MM   MM    MM
+  d&#x27;      YM.  MM YM.  ,MM MM.  ,MM   MM    MM
+_dM_     _dMM__MM_ YMMMMMM_`YMMM9&#x27;Yb._MM_  _MM_
+___       ___                  ___
+`MMb     dMM&#x27;                 `MM
+ MMM.   ,PMM                   MM
+ M`Mb   d&#x27;MM    ___    ___  __ MM   __
+ M YM. ,P MM  6MMMMb   `MM 6MM MM   d&#x27;
+ M `Mb d&#x27; MM 8M&#x27;  `Mb   MM69 &quot; MM  d&#x27;
+ M  YM.P  MM     ,oMM   MM&#x27;    MM d&#x27;
+ M  `Mb&#x27;  MM ,6MM9&#x27;MM   MM     MMdM.
+ M   YP   MM MM&#x27;   MM   MM     MMPYM.
+ M   `&#x27;   MM MM.  ,MM   MM     MM  YM.
+_M_      _MM_`YMMM9&#x27;Yb._MM_   _MM_  YM._</pre>
+  <div class="head-bottom">Welcome to my portfolio. <span>Edmonton, Alberta</span></div>
+</header>
+<nav class="site-links" aria-label="Main menu">
+  <span class="menu-title">PAGES:</span>
+  <a href="index.html">Home</a>
+  <a href="projects.html" aria-current="page">Projects</a>
+  <a href="resume.html">Résumé</a>
+  <a href="mailto:abmark88@gmail.com">Email</a>
+</nav>
+<div class="paper">
+
+<main id="top">
+  <h2>Projects</h2>
+  <p>Some were built on my own, some with classmates or clients. I've noted which is which.</p>
+  <p class="jump">Jump to:
+    <a href="#chroma">Audio ML</a> / <a href="#robot">Robot</a> / <a href="#aliens">Game</a> /
+    <a href="#security">Security</a> / <a href="#heaterfy">Heaterfy</a> /
+    <a href="#schedulebee">ScheduleBee</a> / <a href="#sonance">Sonance</a> / <a href="#clients">Client work</a>
+  </p>
+
+  <section class="project" id="chroma"><h3>01. Oscillator-Level Inverse Synthesis</h3>
+    <p class="tech">SOLO CAPSTONE — PYTHON / PYTORCH / LIBROSA / REAPER</p>
+    <p>A machine-learning pipeline that takes a short recording and predicts oscillator-level parameters for an editable Xfer Serum 2 preset. I wrote the data generation, mel-spectrogram processing, model training, and preset packaging.</p>
+    <p><b>Result:</b> 193,283 labelled training examples from 18 wavetables; 97.4% top-1 accuracy on <em>wavetable classification</em>. It is not a measure of complete sound recreation.</p>
+    <p class="up">[ <a href="#top">top</a> ]</p></section>
+
+  <section class="project" id="robot"><h3>02. Campus Delivery Robot</h3>
+    <p class="tech">SOLO BUILD — ROS2 / C++ / PYTHON / JETSON ORIN NANO / TEENSY 4.1</p>
+    <p>An indoor delivery robot that maps its surroundings and drives to destinations. High-level navigation runs on a Jetson; a Teensy handles the motor hardware. I wrote firmware and ROS2 nodes for serial communication, sensor integration, odometry, PID control, and LiDAR SLAM.</p>
+    <p><b>Hardware test:</b> Mapped the second floor at MacEwan University.</p>
+    <p class="up">[ <a href="#top">top</a> ]</p></section>
+
+  <section class="project" id="aliens"><h3>03. Sometimes Aliens Are Not Your Friends</h3>
+    <p class="tech">SOLO GAME — JAVASCRIPT / WEBGL2 / GLSL</p>
+    <p>A 3D game in the browser built without a game engine. It has handwritten shaders, OBJ loading, a scene and camera system, object pooling, spatial-hash collisions, frustum culling, and a light budget.</p>
+    <p><a href="https://github.com/akimbo-md/Sometimes-Aliens-Are-Not-Your-Friends">Source code on GitHub</a></p>
+    <p class="up">[ <a href="#top">top</a> ]</p></section>
+
+  <section class="project" id="security"><h3>04. Zero Trust Security Review</h3>
+    <p class="tech">CLIENT / TEAM WORK — PROXMOX / ACTIVE DIRECTORY / AD CS / IIS / MTLS</p>
+    <p>Worked with a team on a security assessment for Universal Rail Systems. We evaluated east-west traffic and built a virtualized proof of concept for identity-based access between internal services. My work included networking, Active Directory, certificates, reverse proxies, and policy hardening.</p>
+    <p><b>Delivered:</b> Technical recommendations and a report to the client.</p>
+    <p class="up">[ <a href="#top">top</a> ]</p></section>
+
+  <section class="project" id="heaterfy"><h3>05. Heaterfy</h3>
+    <p class="tech">TEAM PROJECT — PYTHON / PYTORCH / SCIKIT-LEARN / SPOTIFY API</p>
+    <p>A playlist recommendation system using audio features, metadata, genre embeddings, and clustering. I led development of the 16-dimensional genre representation, Spotify connection, Streamlit interface, and evaluation.</p>
+    <p><b>Classroom evaluation:</b> Twelve listeners rated recommendations an average of 83/100.</p>
+    <p class="up">[ <a href="#top">top</a> ]</p></section>
+
+  <section class="project" id="schedulebee"><h3>06. ScheduleBee</h3>
+    <p class="tech">ANDROID APPLICATION — SHIFT PLANNING</p>
+    <p>A scheduling application for assigning shifts, checking availability, and exporting schedules. Designed around the fiddly job of fitting complicated staffing decisions onto a phone screen.</p>
+    <p><a href="https://www.youtube.com/watch?v=6hwdKDMJOw0">Video demo</a></p>
+    <p class="up">[ <a href="#top">top</a> ]</p></section>
+
+  <section class="project" id="sonance"><h3>07. Sonance</h3>
+    <p class="tech">MUSIC LIBRARY TOOL — ITUNES XML / SPOTIFY</p>
+    <p>A tool to read an iTunes library, recreate its playlists in Spotify, and track changes without making the user reorganize their local collection.</p>
+    <p class="up">[ <a href="#top">top</a> ]</p></section>
+
+  <section class="project" id="clients"><h3>08. Client websites</h3>
+    <p class="tech">FREELANCE — WORDPRESS / CONTENT MANAGEMENT / AUTOMATION</p>
+    <p>Websites and operational tools including scheduling, bookings, calendar integration, and content editing.</p>
+    <ul>
+      <li><a href="https://fostermedia.ca/">Foster Media</a> — photography website and booking workflow</li>
+      <li><a href="https://lucycook.art/">Lucy Cook Art</a> — artist website and portfolio management</li>
+    </ul>
+    <p class="up">[ <a href="#top">top</a> ]</p></section>
+</main>
+
+<footer>
+<hr>
+<p><a href="index.html">Home</a> | <a href="projects.html">Projects</a> | <a href="resume.html">Résumé</a> | <a href="mailto:abmark88@gmail.com">Email</a><br>
+<span class="footnote">Last edited: 22 October 2026 &nbsp;&middot;&nbsp; Aidan Mark</span></p>
+</footer>
+</div>
+</div>
+</body>
+</html>

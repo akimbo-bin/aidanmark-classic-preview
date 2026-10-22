@@ -1,0 +1,86 @@
+/* Aidan Mark — original forest green and Apercu Mono palette.
+   Plain document and table layout, without modern card components. */
+:root { color-scheme: light; }
+html { background: #e5eadd; }
+body {
+  margin: 0;
+  padding: 20px 9px 50px;
+  color: #243d30;
+  background: #e5eadd;
+  font: 14px/1.55 'Apercu Mono Pro', 'Courier New', Courier, monospace;
+}
+a { color: #126245; text-decoration: underline; }
+a:visited { color: #386c4c; }
+a:hover { color: #ffffff; background: #295f48; }
+a:focus-visible { outline: 2px dotted #295f48; outline-offset: 2px; }
+.page { width: 794px; max-width: 100%; margin: 0 auto; }
+.header { background: #295f48; border: 1px solid #123c2b; color: #fff8f2; padding: 22px 23px 11px; }
+.hello { font-size: 16px; margin: 0 0 17px 2px; }
+.name-ascii { color: #fff8f2; font: 12px/1.05 'Apercu Mono Pro','Courier New',monospace; letter-spacing: 0; white-space: pre; margin: 0; }
+.name-ascii.stacked { display: none; }
+.head-bottom { margin-top: 17px; padding-top: 10px; border-top: 1px solid #73917a; font-size: 12px; }
+.head-bottom span { float: right; }
+.site-links { padding: 12px 17px 11px; background: #d4e1d0; border: 1px solid #829b85; border-top: 0; font-size: 13px; }
+.site-links .menu-title { margin-right: 14px; color: #385c45; font-size: 11px; }
+.site-links a { display: inline-block; margin-right: 18px; padding: 0 1px; }
+.site-links a[aria-current="page"] { font-weight: bold; color: #153d2b; text-decoration: none; border-bottom: 2px solid #295f48; }
+.paper { background: #fff8f2; padding: 21px 31px 12px; border: 1px solid #829b85; border-top: 0; }
+h2 { font-size: 22px; color: #295f48; margin: 0 0 9px; font-weight: bold; }
+h3 { color: #295f48; font-size: 17px; margin: 28px 0 9px; font-weight: bold; }
+h3 .rule-title { display: block; border-bottom: 2px solid #61846b; padding-bottom: 5px; }
+p { margin: 0 0 13px; }
+small { font-size: 11px; color: #526958; }
+.work-index { width: 100%; border-top: 2px solid #295f48; border-bottom: 1px solid #879e8c; border-collapse: collapse; line-height: 1.45; }
+.work-index th { font-size: 12px; padding: 7px 7px; background: #d4e1d0; text-align: left; }
+.work-index th:first-child { width: 30px; }
+.work-index th:nth-child(2) { width: 190px; }
+.work-index td { padding: 11px 8px 10px; vertical-align: top; border-top: 1px dotted #a4b7a5; }
+.work-index td:first-child { font-size: 12px; color: #587861; }
+.work-index td a { font-weight: bold; }
+.work-index td small { display: block; padding-top: 3px; }
+.more { margin-top: 11px; }
+.links-list { margin: 0 0 12px; padding-left: 23px; }
+.links-list li { padding: 2px 0; }
+.jump { background: #e3ebdd; padding: 10px; border-top: 1px solid #819b87; border-bottom: 1px solid #819b87; font-size: 12px; line-height: 1.85; }
+.project { border-top: 2px solid #73947a; margin-top: 24px; padding-top: 3px; }
+.project h3 { margin-top: 8px; font-size: 18px; }
+.project .tech { color: #4f7158; font-size: 11px; margin-bottom: 8px; }
+.project .up { font-size: 11px; margin-top: 2px; }
+.skills { border-collapse: collapse; width: 100%; }
+.skills tr { border-bottom: 1px dotted #a4b7a5; }
+.skills th { text-align: left; width: 170px; vertical-align: top; color: #295f48; }
+.skills td { vertical-align: top; }
+.history dt { font-weight: bold; margin-top: 12px; color: #295f48; }
+.history dt small { font-weight: normal; }
+.history dd { margin-left: 25px; margin-top: 3px; }
+footer { padding-top: 20px; font-size: 12px; }
+footer hr { border: 0; border-top: 1px solid #8da48f; margin: 0 0 13px; }
+.footnote { display: inline-block; margin-top: 8px; color: #6e8474; font-size: 11px; }
+.visually-hidden { position: absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
+@media (max-width: 760px) {
+ body { padding: 7px 6px 30px; font-size: 13px; }
+ .page { width: 100%; }
+ .header { padding: 17px 16px 11px; }
+ .name-ascii.full { display: none; }
+ .name-ascii.stacked { display: block; font-size: clamp(9px, 2.7vw, 11px); line-height: 1.01; }
+ .hello { margin-bottom: 7px; }
+ .head-bottom { margin-top: 9px; }
+ .head-bottom span { float: none; display:block; margin-top:4px; }
+ .site-links { padding: 10px 13px; }
+ .site-links a { margin-right: 7px; }
+ .paper { padding: 18px 15px 10px; }
+ .work-index th:nth-child(2) { width: auto; }
+ .work-index th:first-child { width: 23px; }
+ .work-index td { padding: 8px 4px; }
+ .work-index td:first-child { font-size: 10px; }
+ .work-index td:nth-child(2) { width: 35%; }
+ h2 { font-size: 20px; }
+ h3 { font-size: 16px; }
+ .skills th { width: 110px; }
+}
+@media (max-width: 375px) {
+  .site-links .menu-title { display: block; margin-bottom: 3px; }
+  .name-ascii.stacked { font-size: 8.4px; }
+  .work-index th { font-size: 11px; }
+  .work-index td { font-size: 11px; }
+}
