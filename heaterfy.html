@@ -3,34 +3,159 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Aidan Mark, Edmonton. Handmade notes on software, robotics, music, and projects.">
+<meta name="description" content="Aidan Mark - software, music, robotics, projects and things made in Edmonton.">
 <title>Heaterfy - Aidan Mark</title>
-<link rel="stylesheet" type="text/css" href="style.css">
+<link rel="stylesheet" href="style.css" type="text/css">
 </head>
-<body class="theme-heaterfy">
-<div class="binder" id="top">
-  <p class="topline">AIDAN MARK / PERSONAL FILES <span class="right">EDMONTON, AB / EST. ON THE WEB</span></p>
-  <p class="file-id">A / M &nbsp; : : &nbsp; HEATERFY</p>
-  <p class="links">[ <a href="index.html">home</a> &nbsp; / &nbsp; <strong>projects</strong> &nbsp; / &nbsp; <a href="resume.html">resume</a> &nbsp; / &nbsp; <a href="mailto:abmark88@gmail.com">e-mail</a> ] &nbsp; <span class="stamp">* no scripts here *</span></p>
-
-  <p class="file-nav">[ <a href="projects.html#heaterfy">&lt;&lt; project drawer</a> ] [ <a href="security.html">&lt; previous</a> ] [ <a href="schedulebee.html">next &gt;</a> ]</p>
-  <p class="file-id">FILE 05 / 08 &nbsp; : : &nbsp; MUSIC / RECOMMENDATIONS</p>
-  <h1 class="file-h1">Heaterfy</h1>
-  <pre class="doodle">  [ track 01 ] ==&gt; [ features ] ==&gt; [ sounds like this ]</pre>
-
-  <div class="project-intro"><p class="tech">team project / Python, PyTorch, scikit-learn, Spotify API</p>
-      <p>A playlist recommendation system using audio features, metadata, genre embeddings, and clustering. I led development of the 16-dimensional genre representation, Spotify connection, Streamlit interface, and evaluation.</p>
-      <p><b>Classroom evaluation:</b> Twelve listeners rated recommendations an average of 83/100.</p></div>
-  <div class="figure"><img src="assets/heaterfy-screen.jpg" alt="Screenshot from the original Heaterfy interface."><p class="caption">Screenshot from the original Heaterfy interface.</p></div>
-<div class="figure"><img src="assets/heaterfy-art.jpg" alt="The genre-embedding visual from the old project card."><p class="caption">The genre-embedding visual from the old project card.</p></div>
-  <p><img src="assets/heaterfy-flame.png" width="110" alt="Heaterfy's flame-shaped logo"></p>
-  <p class="contact-paper"><b>More:</b> <a href="projects.html">all projects</a> / <a href="resume.html">technical background</a> / <a href="mailto:abmark88@gmail.com">email Aidan</a></p>
-  <div class="foot">
-    <p class="stars">* * * * *</p>
-    <p><a href="index.html">home</a> &nbsp; / &nbsp; <a href="projects.html">all the projects</a> &nbsp; / &nbsp; <a href="resume.html">r&eacute;sum&eacute;</a> &nbsp; / &nbsp; <a href="mailto:abmark88@gmail.com">write me</a></p>
-    <p>Last edited: 22 October 2026.<br>
-       Made from ordinary HTML, old-fashioned CSS, and original project pictures. &copy; Aidan Mark.</p>
-  </div>
+<body class="heaterfy">
+<div class="page">
+<div class="site-head">
+<p class="logo"><a href="index.html">Aidan Mark</a></p>
+<p class="nav"><a href="index.html">Home</a> | <b>Projects</b> | <a href="resume.html">Résumé</a> | <a href="mailto:abmark88@gmail.com">Email</a></p>
+</div>
+<div class="body-text">
+<h1>Heaterfy</h1>
+<p class="tech">Python · scikit-learn · XGBoost · PyTorch · Node2Vec · Spotify Audio Features · Streamlit</p>
+<div class="short-intro"><p>A playlist-based music recommendation engine that focuses on <em>vibe</em>, not just genre labels.</p>
+<p>Heaterfy analyzes a Spotify playlist and generates recommendations using multiple models working together — combining audio features, genre embeddings, clustering, and temporal context. The result is recommendations that actually feel like they belong in the playlist, whether it’s sweaty club tracks, funk classics, or crushing metal.</p></div>
+<hr>
+<div class="writeup">
+<p>Heaterfy is a playlist recommendation engine built around a simple idea: recommending songs is not just about matching genre labels or throwing a neural network at audio features. It is about preserving the <em>feel</em> of a playlist. The system takes a Spotify playlist as input, analyzes its audio profile, genre structure, release-year distribution, and internal variation, then returns recommendations that sound like they belong there.</p>
+<p><img alt="1" src="assets/heaterfy-markdown-1776127864220-1.png"/></p>
+<h3>Overview</h3>
+<p>The project is built as a full user-facing application rather than a backend script. Users upload a playlist CSV exported from Spotify through Exportify, preview the tracks inside the app, generate recommendations, and inspect the analysis behind the results. The Streamlit interface includes:
+- playlist preview
+- top recommendations with Spotify embeds
+- genre and audio-feature analysis
+- release-year distribution
+- clustering visualizations
+- model-by-model output comparisons
+- full process logs</p>
+<p>That interface is a major part of the project. The system does not just output a ranked list; it exposes how the playlist is being interpreted and how each model contributes to the final result.</p>
+<h3>Input and preprocessing</h3>
+<p>The pipeline begins by ingesting a playlist CSV and matching it against a larger music catalogue. Before any recommendation model runs, the data is cleaned and normalized so that the feature space is usable.</p>
+<p><img alt="2" src="assets/heaterfy-markdown-1776127873365-2.png"/></p>
+<p>That preprocessing includes:
+- filling missing genre metadata
+- standardizing and normalizing the playlist and catalogue data
+- extracting release years from release dates
+- removing low-value columns
+- dropping duplicate or unhelpful rows
+- removing tracks that already exist in the input playlist</p>
+<p><img alt="33" src="assets/heaterfy-markdown-1776127889341-33.png"/></p>
+<p>One of the practical problems in the source data was that many tracks were missing genre tags entirely. To address that, the project includes a genre-filling step using external metadata so that tracks are not discarded or underrepresented just because Spotify’s metadata is incomplete.</p>
+<h3>Genre embeddings</h3>
+<p>The most important part of Heaterfy is the genre embedding system.</p>
+<p>A flat genre label like “house,” “rock,” or “metal” is too crude for recommendation. It ignores how closely related genres actually are, and it collapses a lot of useful information in the process. Heaterfy handles this by representing genres in a continuous space instead of a simple categorical bucket.</p>
+<p>The system scrapes the <strong>EveryNoise</strong> genre map, which places thousands of genres according to musical similarity, then builds a graph from that structure and trains a <strong>Node2Vec</strong> model on it. Each genre is embedded into a <strong>16-dimensional vector</strong>, and each track gets a genre representation by averaging the embeddings of its tags.</p>
+<p><img alt="1rvMhAw0peIxSzMr_S8hCCA-768x443" src="assets/heaterfy-768x443.jpg"/></p>
+<p>This lets the system reason about genre similarity the way embedding models reason about similarity in language: tracks with different text labels can still be close if they sit in the same region of musical space. That is especially important for subgenre-heavy playlists, where reducing everything to one broad category destroys the actual vibe.</p>
+<h3>Recommendation pipeline</h3>
+<p>Heaterfy is not one model. It is a staged recommendation pipeline where each layer handles a different part of the problem.</p>
+<p>The full flow looks like this:</p>
+<ol>
+<li>
+<p><strong>Fill missing genres</strong><br/>
+   Missing genre values are recovered from the catalogue or external metadata where possible.</p>
+</li>
+<li>
+<p><strong>Compute genre embeddings</strong><br/>
+   Genre tags are converted into 16-dimensional vectors for similarity-aware comparisons.</p>
+</li>
+<li>
+<p><strong>Clean and normalize the data</strong><br/>
+   Both the input playlist and the main catalogue are standardized into the feature space expected by the models.</p>
+</li>
+<li>
+<p><strong>Initial filtering with XGBoost</strong><br/>
+   A boosted tree classifier removes tracks that clearly do not fit the playlist, shrinking the search space before more detailed scoring begins.</p>
+</li>
+<li>
+<p><strong>Release-year adjustment</strong><br/>
+   The system detects whether the playlist is modern, decade-specific, or mixed-era, then applies bonuses or penalties to candidates based on how far their release years deviate from the playlist profile.</p>
+</li>
+<li>
+<p><strong>Ridge regression scoring</strong><br/>
+   A regression model scores tracks based on their audio similarity to the playlist.</p>
+</li>
+<li>
+<p><strong>Cosine similarity scoring</strong><br/>
+   The system compares candidate tracks against the playlist’s average audio profile using features such as danceability, energy, tempo, valence, loudness, instrumentalness, and speechiness.</p>
+</li>
+<li>
+<p><strong>GLM metadata scoring</strong><br/>
+   A generalized linear model adds softer signals using metadata such as artist, album, label, popularity, and release date.</p>
+</li>
+<li>
+<p><strong>K-means clustering</strong><br/>
+   The playlist is clustered so the final recommendations preserve its internal diversity instead of collapsing toward one average sound.</p>
+</li>
+<li>
+<p><strong>Neural network layer</strong><br/>
+    A neural model combines multiple scores and feature groups as an experimental layer.</p>
+</li>
+<li>
+<p><strong>Final weighted selection</strong><br/>
+    The strongest scorers are combined into a final weighted ranking, then cluster-based diversity selection is applied to produce the recommendation set.</p>
+</li>
+</ol>
+<p>That architecture is what gives Heaterfy its character. It behaves more like a curation engine than a single-model recommender.</p>
+<p><img alt="4" src="assets/heaterfy-markdown-1776128270447-4.png"/></p>
+<h3>Audio scoring</h3>
+<p>The two strongest models in practice were the <strong>cosine similarity</strong> scorer and the <strong>ridge regression</strong> scorer.</p>
+<p>Cosine similarity measures how closely a track matches the playlist’s average audio feature profile. Ridge regression does something similar through a learned scoring function, and the two frequently produced similar high-quality results. In the final weighting, cosine received the strongest emphasis, with ridge acting as the second major signal.</p>
+<p>This turned out to be one of the useful conclusions of the project: simpler models with strong feature design were more reliable than the more experimental neural network layer. That is a better engineering result than pretending the most complex model automatically won.</p>
+<h3>Temporal logic</h3>
+<p>One of the most effective parts of the system is not machine learning at all.</p>
+<p>Heaterfy includes a release-year adjustment stage that detects whether the playlist is:
+- modern / recent
+- concentrated in a specific decade
+- mixed across eras</p>
+<p>It then boosts or penalizes candidates accordingly. This was added because purely audio-based models would sometimes surface older songs that technically matched the sonic profile but did not actually fit the playlist’s temporal context. For a recent after-hours house playlist, that meant random old outliers appearing in results. For an older funk playlist, it could mean over-recommending newer tracks with similar production traits but the wrong cultural and temporal feel.</p>
+<p>The year adjustment fixes that in a direct, controllable way.</p>
+<h3>Diversity and clustering</h3>
+<p>A playlist is usually not one thing.</p>
+<p>Even when the overall mood is coherent, most strong playlists contain multiple sub-vibes. Heaterfy models that variation using <strong>K-means clustering</strong> and then preserves that cluster distribution in the final recommendation set.</p>
+<p><img alt="8" src="assets/heaterfy-markdown-1776128310458-8.png"/></p>
+<p>That means the system does not just recommend songs close to the average track. It tries to keep the same internal balance the playlist already has. For example, if the source playlist has a mix of heavier tracks, groovier tracks, and more stripped-down tracks, the recommendation list will reflect that ratio instead of flattening everything into one mode.</p>
+<p>A PCA projection is also used in the interface to visualize the cluster structure and make the playlist’s internal shape easier to inspect.</p>
+<h3>Results</h3>
+<p>The system performed well across very different genres and playlist types.</p>
+<p>The report includes examples across:
+- funk / disco / soul playlists
+- late-night house and after-hours club playlists
+- metal playlists
+- niche genre-heavy playlists</p>
+<p>That breadth matters because it shows the system is not tied to one narrow musical niche. The after-hours playlist example is a good illustration of what Heaterfy is trying to preserve: not just “house music,” but a specific subset of house tracks that fit a sweaty 3AM-to-10AM club set rather than generic mainstage material. The same principle holds for funk crates and metal playlists. The recommendations are not just close on paper; they are tracks the curators actually felt belonged in the playlist.</p>
+<p>The report also documents that the system produced usable recommendations across genres like rock, country, rap, R&amp;B, K-pop, vaporwave, phonk, Ukrainian rap, and castlecore. That is a strong sign that the pipeline generalizes because it is modelling playlist structure rather than memorizing one genre family.</p>
+<h3>Stats</h3>
+<p><img alt="5" src="assets/heaterfy-markdown-1776128412391-5.png"/></p>
+<p>The app exposes full process logs showing:
+- catalogue size
+- playlist size
+- detected top genres
+- genre embedding status
+- classification filtering results
+- release-year adjustment statistics
+- top results per model
+- cluster distribution before and after final selection
+- final score distributions</p>
+<p>That is useful both for debugging and for trust. The system does not behave like a black box. You can see what happened at each stage and why the final recommendation list looks the way it does.</p>
+<h3>Outcome</h3>
+<p>Heaterfy ended up being much more than a basic playlist recommender. It became a full recommendation and analysis system that combines:
+- embedding-based genre reasoning
+- audio-feature similarity
+- metadata scoring
+- release-year logic
+- diversity preservation
+- a user-facing interface for exploration and playback</p></div>
+<p class="back"><a href="projects.html">Back to projects</a> | <a href="mailto:abmark88@gmail.com">Email me</a></p>
+</div>
+<div class="footer">
+<hr>
+<p><a href="index.html">Home</a> | <b>Projects</b> | <a href="resume.html">Résumé</a> | <a href="mailto:abmark88@gmail.com">Email</a></p>
+<p>Last updated: October 2026. &copy; Aidan Mark.</p>
+</div>
 </div>
 </body>
 </html>

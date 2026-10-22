@@ -3,33 +3,44 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Aidan Mark, Edmonton. Handmade notes on software, robotics, music, and projects.">
+<meta name="description" content="Aidan Mark - software, music, robotics, projects and things made in Edmonton.">
 <title>Sonance - Aidan Mark</title>
-<link rel="stylesheet" type="text/css" href="style.css">
+<link rel="stylesheet" href="style.css" type="text/css">
 </head>
-<body class="theme-sonance">
-<div class="binder" id="top">
-  <p class="topline">AIDAN MARK / PERSONAL FILES <span class="right">EDMONTON, AB / EST. ON THE WEB</span></p>
-  <p class="file-id">A / M &nbsp; : : &nbsp; SONANCE</p>
-  <p class="links">[ <a href="index.html">home</a> &nbsp; / &nbsp; <strong>projects</strong> &nbsp; / &nbsp; <a href="resume.html">resume</a> &nbsp; / &nbsp; <a href="mailto:abmark88@gmail.com">e-mail</a> ] &nbsp; <span class="stamp">* no scripts here *</span></p>
-
-  <p class="file-nav">[ <a href="projects.html#sonance">&lt;&lt; project drawer</a> ] [ <a href="schedulebee.html">&lt; previous</a> ] [ <a href="clients.html">next &gt;</a> ]</p>
-  <p class="file-id">FILE 07 / 08 &nbsp; : : &nbsp; PLAYLISTS / MUSIC LIBRARIES</p>
-  <h1 class="file-h1">Sonance</h1>
-  <pre class="doodle">  [ iTunes library ] -----------------&gt; [ Spotify ]</pre>
-
-  <div class="project-intro"><p class="tech">music library tool / iTunes XML, Spotify</p>
-      <p>A tool to read an iTunes library, recreate its playlists in Spotify, and track changes without making the user reorganize their local collection.</p></div>
-  <div class="figure"><img src="assets/sonance-disc.png" alt="The old-school music icon used on the original project card."><p class="caption">The old-school music icon used on the original project card.</p></div>
-<div class="figure"><img src="assets/sonance-shot.jpg" alt="A strip of the original Sonance interface artwork."><p class="caption">A strip of the original Sonance interface artwork.</p></div>
-
-  <p class="contact-paper"><b>More:</b> <a href="projects.html">all projects</a> / <a href="resume.html">technical background</a> / <a href="mailto:abmark88@gmail.com">email Aidan</a></p>
-  <div class="foot">
-    <p class="stars">* * * * *</p>
-    <p><a href="index.html">home</a> &nbsp; / &nbsp; <a href="projects.html">all the projects</a> &nbsp; / &nbsp; <a href="resume.html">r&eacute;sum&eacute;</a> &nbsp; / &nbsp; <a href="mailto:abmark88@gmail.com">write me</a></p>
-    <p>Last edited: 22 October 2026.<br>
-       Made from ordinary HTML, old-fashioned CSS, and original project pictures. &copy; Aidan Mark.</p>
-  </div>
+<body class="sonance">
+<div class="page">
+<div class="site-head">
+<p class="logo"><a href="index.html">Aidan Mark</a></p>
+<p class="nav"><a href="index.html">Home</a> | <b>Projects</b> | <a href="resume.html">Résumé</a> | <a href="mailto:abmark88@gmail.com">Email</a></p>
+</div>
+<div class="body-text">
+<h1>Sonance</h1>
+<p class="tech">Python · Spotify Web API · XML Parsing · OAuth · REST APIs · CLI Tooling</p>
+<div class="short-intro"><p>A synchronization tool that mirrors iTunes playlists into Spotify while preserving structure, ordering, and intent.</p>
+<p>Sonance parses iTunes XML libraries, detects playlist changes, and keeps Spotify playlists in sync across machines. It turns a legacy local music workflow into a modern streaming-compatible system without forcing users to abandon how they already manage their libraries.</p></div>
+<hr>
+<div class="writeup">
+<p>Sonance is a playlist synchronization tool built to bridge local music libraries and streaming platforms. The idea is straightforward: parse an iTunes XML library, understand its playlists and track structure, then recreate and maintain those playlists in Spotify without rebuilding everything by hand.</p>
+<p><img alt="Screenshot 2025-11-17 214540" src="assets/sonance-markdown-1776130592463-Screenshot_2025-11-17_214540.png"/></p>
+<h3>Overview</h3>
+<p>This project is aimed at people who still curate music locally but want the convenience of streaming. iTunes libraries can contain years of playlist organization, track ordering, and editorial choices that do not transfer cleanly into modern platforms. Sonance treats that library as the source of truth and uses it to mirror playlists into Spotify.</p>
+<h3>How it works</h3>
+<p>The system reads the iTunes XML export, extracts track metadata and playlist membership, then maps those tracks against Spotify’s catalogue through the Spotify API. Once matches are found, it can create or update Spotify playlists so they reflect the original library as closely as possible.</p>
+<p>That means the main problems in the project are:
+- parsing and normalizing iTunes library data
+- matching local tracks to Spotify entries reliably
+- preserving playlist structure and ordering
+- making sync behavior predictable instead of destructive</p>
+<p><img alt="Screenshot 2026-01-19 174836" src="assets/sonance-markdown-1776130601462-Screenshot_2026-01-19_174836.png"/></p>
+<h3>Current state</h3>
+<p>Sonance is still a work in progress, but the core concept is already strong: treat playlist sync as a data synchronization problem rather than a one-time import script. The long-term goal is to make it useful for real libraries across multiple machines, so changes to an iTunes-managed collection can be pushed back into Spotify in a way that feels consistent and low-friction.</p></div>
+<p class="back"><a href="projects.html">Back to projects</a> | <a href="mailto:abmark88@gmail.com">Email me</a></p>
+</div>
+<div class="footer">
+<hr>
+<p><a href="index.html">Home</a> | <b>Projects</b> | <a href="resume.html">Résumé</a> | <a href="mailto:abmark88@gmail.com">Email</a></p>
+<p>Last updated: October 2026. &copy; Aidan Mark.</p>
+</div>
 </div>
 </body>
 </html>

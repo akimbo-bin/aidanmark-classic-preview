@@ -3,34 +3,125 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Aidan Mark, Edmonton. Handmade notes on software, robotics, music, and projects.">
-<title>Zero Trust Security Review - Aidan Mark</title>
-<link rel="stylesheet" type="text/css" href="style.css">
+<meta name="description" content="Aidan Mark - software, music, robotics, projects and things made in Edmonton.">
+<title>Zero Trust Security Audit - Aidan Mark</title>
+<link rel="stylesheet" href="style.css" type="text/css">
 </head>
-<body class="theme-security">
-<div class="binder" id="top">
-  <p class="topline">AIDAN MARK / PERSONAL FILES <span class="right">EDMONTON, AB / EST. ON THE WEB</span></p>
-  <p class="file-id">A / M &nbsp; : : &nbsp; ZERO TRUST SECURITY REVIEW</p>
-  <p class="links">[ <a href="index.html">home</a> &nbsp; / &nbsp; <strong>projects</strong> &nbsp; / &nbsp; <a href="resume.html">resume</a> &nbsp; / &nbsp; <a href="mailto:abmark88@gmail.com">e-mail</a> ] &nbsp; <span class="stamp">* no scripts here *</span></p>
-
-  <p class="file-nav">[ <a href="projects.html#security">&lt;&lt; project drawer</a> ] [ <a href="aliens.html">&lt; previous</a> ] [ <a href="heaterfy.html">next &gt;</a> ]</p>
-  <p class="file-id">FILE 04 / 08 &nbsp; : : &nbsp; NETWORKS / IDENTITY / CERTIFICATES</p>
-  <h1 class="file-h1">Zero Trust Security Review</h1>
-  <pre class="doodle">  [ client ] ==== identity + certificate ==== [ service ]</pre>
-
-  <div class="project-intro"><p class="tech">client / team work / Proxmox, Active Directory, AD CS, IIS, mTLS</p>
-      <p>Worked with a team on a security assessment for Universal Rail Systems. We evaluated east-west traffic and built a virtualized proof of concept for identity-based access between internal services. My work included networking, Active Directory, certificates, reverse proxies, and policy hardening.</p>
-      <p><b>Delivered:</b> Technical recommendations and a report to the client.</p></div>
-  <div class="figure"><img src="assets/security-topology.jpg" alt="Network topology diagram from the archived security work."><p class="caption">Network topology diagram from the archived security work.</p></div>
-<div class="figure"><img src="assets/security-icons.jpg" alt="Little icons from the original network-themed project card."><p class="caption">Little icons from the original network-themed project card.</p></div>
-
-  <p class="contact-paper"><b>More:</b> <a href="projects.html">all projects</a> / <a href="resume.html">technical background</a> / <a href="mailto:abmark88@gmail.com">email Aidan</a></p>
-  <div class="foot">
-    <p class="stars">* * * * *</p>
-    <p><a href="index.html">home</a> &nbsp; / &nbsp; <a href="projects.html">all the projects</a> &nbsp; / &nbsp; <a href="resume.html">r&eacute;sum&eacute;</a> &nbsp; / &nbsp; <a href="mailto:abmark88@gmail.com">write me</a></p>
-    <p>Last edited: 22 October 2026.<br>
-       Made from ordinary HTML, old-fashioned CSS, and original project pictures. &copy; Aidan Mark.</p>
-  </div>
+<body class="security">
+<div class="page">
+<div class="site-head">
+<p class="logo"><a href="index.html">Aidan Mark</a></p>
+<p class="nav"><a href="index.html">Home</a> | <b>Projects</b> | <a href="resume.html">Résumé</a> | <a href="mailto:abmark88@gmail.com">Email</a></p>
+</div>
+<div class="body-text">
+<h1>Zero Trust Security Audit</h1>
+<p class="tech">Proxmox VE · VyOS · Windows Server 2022 · Active Directory (AD DS) · AD Certificate Services (AD CS) · mTLS · IIS (Reverse Proxy) · SQL Server · Group Policy</p>
+<div class="short-intro"><p>A real-world security engagement where our team audited a company network and delivered a Zero Trust design that locks down internal “east–west” traffic.</p>
+<p>We built a working proof-of-concept by virtualizing their environment and enforcing identity + encryption at the service level using certificates and mutual TLS. The result is a segmented network where internal services only talk to the exact machines they’re supposed to — and everything else is denied by default.</p></div>
+<hr>
+<div class="writeup">
+<p>This project is a Zero Trust redesign and proof-of-concept for Universal Rail Systems. The focus was internal east-west traffic: the communication that happens between servers, user devices, and internal services after someone is already inside the network. In a traditional flat network, that traffic is often trusted by default. The goal here was to replace that assumption with explicit authentication, segmentation, and encryption between systems that should communicate and systems that should not.</p>
+<h3>Overview</h3>
+<p>The starting point was a typical perimeter-heavy design. Core services such as Active Directory, SQL, file sharing, printing, and internal applications were able to communicate broadly on the same network, with limited isolation between roles. That works operationally, but once one machine is compromised, lateral movement becomes much easier.</p>
+<p>The Zero Trust design changes that model. Instead of trusting traffic because it originated on the internal network, access is granted only when identity, device trust, and connection policy all line up. In practical terms, that meant:
+- certificate-based authentication between systems
+- strict service-to-service access rules
+- segmentation between internal resources and the DMZ
+- least-privilege access for users, machines, and service accounts
+- encrypted internal traffic rather than relying on “inside the network” as a security boundary</p>
+<h3>Virtualized proof-of-concept environment</h3>
+<p>To test the design, the network was recreated as a proof-of-concept in a virtualized environment.</p>
+<p><img alt="topology" src="assets/security-markdown-1776120037395-topology.png"/></p>
+<p>The deployment used <strong>Proxmox VE</strong> to host the server fleet and <strong>VyOS</strong> as the router between network segments. The environment included:
+- an <strong>Active Directory / Certificate Authority</strong> server
+- a <strong>File / Print Server</strong>
+- a <strong>SQL Server</strong>
+- an <strong>Application Server</strong>
+- a <strong>DMZ application server</strong>
+- a <strong>client / remote desktop machine</strong> for access testing</p>
+<p>The topology separates internal services from public-facing infrastructure using distinct subnets and a DMZ. That layout makes the trust boundaries explicit and gives the router and host firewalls meaningful enforcement points rather than leaving everything in one unrestricted broadcast domain.</p>
+<h3>Identity as the control plane</h3>
+<p>The core of the design is <strong>Active Directory</strong> and <strong>certificate-based trust</strong>.</p>
+<p>A Windows Server 2022 instance was configured as the domain controller for urs.local and also deployed as an <strong>Enterprise Root CA</strong> using <strong>Active Directory Certificate Services</strong>. Certificate templates were created for both client and server authentication, and certificates were distributed to domain-joined systems through Group Policy auto-enrollment.</p>
+<p>This is what makes the Zero Trust model practical. Once machines and services have verifiable identities, internal access decisions can be based on certificates and policy rather than IP reachability alone. A device without a valid certificate is not just “unrecognized”; it becomes unable to participate in trusted service communication.</p>
+<h3>Mutual TLS between internal services</h3>
+<p>The main technical control used throughout the design is <strong>mutual TLS</strong>.</p>
+<p>Normal TLS proves the identity of the server to the client and encrypts the connection. <strong>mTLS</strong> extends that by requiring the client to present a valid certificate as well. That means both sides authenticate each other during the handshake before any useful communication happens.</p>
+<p>In this project, mTLS was used to secure east-west traffic between internal components. That changes the trust model significantly. Internal traffic is no longer allowed because it came from the right subnet; it is allowed because the device, user, and service can all prove who they are.</p>
+<h3>Application server</h3>
+<p>The application tier was configured behind <strong>IIS</strong> using a reverse proxy model.</p>
+<p>IIS was set up to:
+- terminate HTTPS
+- require a valid server certificate
+- require client certificates
+- enforce SSL for inbound access
+- forward requests internally through URL Rewrite / ARR</p>
+<p>That setup turns the application server into a policy enforcement point. Access to the application is not just “open port 443”; it becomes HTTPS with certificate validation and server-side access control. The report also includes hardening guidance such as disabling older TLS versions and restricting inbound access to specific trusted subnets.</p>
+<h3>SQL Server</h3>
+<p>The SQL tier was locked down to the systems that actually need database access.</p>
+<p>The SQL Server was configured with:
+- a server certificate issued by the internal CA
+- Force Encryption enabled in SQL Server Configuration Manager
+- firewall rules allowing port 1433 only from the application server
+- a dedicated, minimally privileged service account for database access</p>
+<p>This matters because database compromise is often the real objective in a lateral-movement scenario. By restricting SQL communication to a specific server, a specific service, and an encrypted authenticated channel, the design removes the default “anything internal can try to talk to SQL” behavior.</p>
+<h3>File and print services</h3>
+<p>The file and print server was handled as two separate security problems living on one host.</p>
+<p>For file sharing, the design uses:
+- NTFS and share-level permissions
+- AD security groups for role-based access
+- auditing for sensitive directory access
+- internal-only firewall rules</p>
+<p>For printing, the design assumes printers are a weak link and treats them accordingly:
+- printers are placed in their own VLAN
+- traffic is restricted so printers communicate only with the print server
+- direct user-to-printer communication is denied
+- certificate-based print authentication is enforced through middleware such as PaperCut NG</p>
+<p>That is an important detail in the project because it extends Zero Trust beyond the obvious “servers and users” story into the devices organizations often leave exposed.</p>
+<h3>Remote access and endpoint trust</h3>
+<p>Remote Desktop access was also brought under the same trust model.</p>
+<p>The RDP design uses:
+- certificates issued by the internal CA
+- AD-backed authentication
+- Group Policy hardening for session controls
+- restrictions on clipboard sharing and drive mapping
+- subnet-based firewall rules for port 3389
+- denial of access for non-domain or non-compliant devices</p>
+<p><img alt="cert" src="assets/security-markdown-1776120119824-cert.png"/></p>
+<p>The report also recommends <strong>NAC</strong> and <strong>802.1X</strong> to push trust enforcement closer to the switch and endpoint layer. Those controls were part of the overall design direction even where they were not the main focus of the proof-of-concept.</p>
+<h3>Segmentation and traffic policy</h3>
+<p>The network is segmented so each server role has a narrow and deliberate communication path.</p>
+<p>Examples from the design include:
+- DMZ separation for public-facing services
+- internal VLANs for core services
+- printer isolation in a dedicated VLAN
+- ACLs that allow only specific flows, such as Application Server → SQL Server on 1433
+- firewall rules scoped to service, port, machine identity, and in some cases application binary
+- optional IPsec rules for additional network-layer encryption between trusted systems</p>
+<p>This is the practical side of Zero Trust. It is not a slogan; it is a network where access paths are reduced until only the required ones remain.</p>
+<h3>What the project delivered</h3>
+<p>The end result was not just a written recommendation. It was a working proof-of-concept showing how to move a Windows-centric internal network toward a Zero Trust model using technologies that organizations like URS could realistically deploy:
+- Proxmox-based virtualized lab environment
+- VyOS routing and segmentation
+- Active Directory domain services
+- internal Certificate Authority
+- certificate auto-enrollment
+- mTLS-secured application access
+- encrypted and restricted SQL connectivity
+- role-based file access
+- VLAN-isolated print infrastructure
+- hardened remote desktop access</p>
+<p>The project also documented the deployment steps, certificate management flow, firewall patterns, and additional recommendations for future maturity, including NAC, 802.1X, SIEM integration, and regular penetration testing.</p>
+<h3>Outcome</h3>
+<p>This was a security architecture and implementation project focused on making internal network trust explicit instead of assumed. It combined network segmentation, identity infrastructure, certificate management, service hardening, firewall policy, and virtualization into a single proof-of-concept environment.</p>
+<p>At a technical level, the project is about taking Zero Trust out of abstract policy language and turning it into a concrete internal network design: who can talk to what, over which protocols, under which identities, and with what cryptographic proof.</p></div>
+<p class="back"><a href="projects.html">Back to projects</a> | <a href="mailto:abmark88@gmail.com">Email me</a></p>
+</div>
+<div class="footer">
+<hr>
+<p><a href="index.html">Home</a> | <b>Projects</b> | <a href="resume.html">Résumé</a> | <a href="mailto:abmark88@gmail.com">Email</a></p>
+<p>Last updated: October 2026. &copy; Aidan Mark.</p>
+</div>
 </div>
 </body>
 </html>

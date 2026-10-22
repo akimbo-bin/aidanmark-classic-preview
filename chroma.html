@@ -3,33 +3,90 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Aidan Mark, Edmonton. Handmade notes on software, robotics, music, and projects.">
-<title>Oscillator-Level Inverse Synthesis - Aidan Mark</title>
-<link rel="stylesheet" type="text/css" href="style.css">
+<meta name="description" content="Aidan Mark - software, music, robotics, projects and things made in Edmonton.">
+<title>Oscillator-Level Inverse Synthesis - Neural Network Parameter Inference from Audio - Aidan Mark</title>
+<link rel="stylesheet" href="style.css" type="text/css">
 </head>
-<body class="theme-chroma">
-<div class="binder" id="top">
-  <p class="topline">AIDAN MARK / PERSONAL FILES <span class="right">EDMONTON, AB / EST. ON THE WEB</span></p>
-  <p class="file-id">A / M &nbsp; : : &nbsp; OSCILLATOR-LEVEL INVERSE SYNTHESIS</p>
-  <p class="links">[ <a href="index.html">home</a> &nbsp; / &nbsp; <strong>projects</strong> &nbsp; / &nbsp; <a href="resume.html">resume</a> &nbsp; / &nbsp; <a href="mailto:abmark88@gmail.com">e-mail</a> ] &nbsp; <span class="stamp">* no scripts here *</span></p>
-
-  <p class="file-nav">[ <a href="projects.html#chroma">&lt;&lt; project drawer</a> ] [ <a href="robot.html">next &gt;</a> ]</p>
-  <p class="file-id">FILE 01 / 08 &nbsp; : : &nbsp; AUDIO / MACHINE LEARNING</p>
-  <h1 class="file-h1">Oscillator-Level Inverse Synthesis</h1>
-  <pre class="doodle"> . . . /\\ /\\_/\\      ~    /\\_ ~  /\\  ~ ~</pre>
-
-  <div class="project-intro"><p class="tech">solo capstone / Python, PyTorch, librosa, REAPER</p>
-      <p>A machine-learning pipeline that takes a short recording and predicts oscillator-level parameters for an editable Xfer Serum 2 preset. I wrote the data generation, mel-spectrogram processing, model training, and preset packaging.</p>
-      <p><b>Result:</b> 193,283 labelled training examples from 18 wavetables; 97.4% top-1 accuracy on <em>wavetable classification</em>. It is not a measure of complete sound recreation.</p></div>
-  <div class="figure"><img src="assets/chroma-osc.jpg" alt="A visual from the inverse-synthesis work, carried over from the old portfolio."><p class="caption">A visual from the inverse-synthesis work, carried over from the old portfolio.</p></div>
-  <div class="note-box"><b>What the number means:</b> 97.4% is the top-1 <em>wavetable classification</em> result. Not full audio reconstruction. That's an important distinction.</div>
-  <p class="contact-paper"><b>More:</b> <a href="projects.html">all projects</a> / <a href="resume.html">technical background</a> / <a href="mailto:abmark88@gmail.com">email Aidan</a></p>
-  <div class="foot">
-    <p class="stars">* * * * *</p>
-    <p><a href="index.html">home</a> &nbsp; / &nbsp; <a href="projects.html">all the projects</a> &nbsp; / &nbsp; <a href="resume.html">r&eacute;sum&eacute;</a> &nbsp; / &nbsp; <a href="mailto:abmark88@gmail.com">write me</a></p>
-    <p>Last edited: 22 October 2026.<br>
-       Made from ordinary HTML, old-fashioned CSS, and original project pictures. &copy; Aidan Mark.</p>
-  </div>
+<body class="chroma">
+<div class="page">
+<div class="site-head">
+<p class="logo"><a href="index.html">Aidan Mark</a></p>
+<p class="nav"><a href="index.html">Home</a> | <b>Projects</b> | <a href="resume.html">Résumé</a> | <a href="mailto:abmark88@gmail.com">Email</a></p>
+</div>
+<div class="body-text">
+<h1>Oscillator-Level Inverse Synthesis - Neural Network Parameter Inference from Audio</h1>
+<p class="tech">Python · PyTorch · CNNs · Autoencoder · Audio DSP · REAPER ReaScript · Xfer Serum 2</p>
+<div class="short-intro"><p>A machine learning system that analyzes an audio sample and generates a playable synthesizer preset that recreates the sound.</p>
+<p>Built as a solo university capstone project, a model predicts oscillator-level parameters for Xfer Serum 2 directly from audio, producing real presets that can be loaded, played, and refined. The system demonstrates that audio-to-parameter inference is feasible at scale, while revealing the fundamental limits of parameter-based synthesis.</p></div>
+<hr>
+<div class="writeup">
+<p>This project is an audio-to-synth parameter inference system built for <strong>Xfer Serum 2</strong>. Given a short audio example, the system predicts a set of synthesizer parameters that recreate the core timbral character of the sound and packages the result as a real, loadable <code>.SerumPreset</code> file. The output is not just generated audio or a nearest-neighbour lookup result; it is a playable synth patch that can be opened, edited, automated, and used in a normal production workflow.</p>
+<h4>Overview</h4>
+<p>Modern synthesizers are extremely expressive, but that flexibility comes with a large parameter space and a lot of interdependence between controls. Serum exposes thousands of parameters, and even limiting the problem to oscillator-level controls still leaves a difficult inverse problem: many different parameter combinations can produce perceptually similar results, and the synthesizer itself is not differentiable in a way that makes direct gradient-based optimization practical.</p>
+<p>The system focuses on the part of the problem that is both tractable and musically useful: predicting the oscillator configuration well enough to produce a strong starting patch. The initial scope includes wavetable selection, wavetable position, warp modes and amounts, unison settings, stereo width, blend, and oscillator level. Filters, effects, complex modulation, and secondary synthesis layers are intentionally excluded from the early phases so the model can learn the strongest timbral controls first.</p>
+<h4>End-to-end pipeline</h4>
+<p>The full pipeline has four main stages:</p>
+<ol>
+<li><strong>Generate a labeled dataset</strong></li>
+<li><strong>Convert audio into a stereo-aware representation</strong></li>
+<li><strong>Predict synthesizer parameters with a multi-head neural network</strong></li>
+<li><strong>Reconstruct the predictions as a valid Serum preset</strong></li>
+</ol>
+<p>Each stage was built specifically for this project. There was no off-the-shelf dataset for Serum, no built-in parameter export pipeline, and no public API for direct preset generation.</p>
+<h4>Dataset generation</h4>
+<p>A large part of the work was building the dataset pipeline.</p>
+<p>Because Serum 2 is a commercial VST and does not expose a public interface for randomizing parameters and exporting paired labels, the project uses <strong>REAPER</strong> and its <strong>ReaScript API</strong> as a host environment. Python scripts generate randomized oscillator configurations, apply them to Serum, render short audio clips offline, and export the exact parameter state alongside each render. That produces perfectly aligned audio–parameter pairs at scale.</p>
+<p>The final dataset contains <strong>193,283 labeled samples</strong> across <strong>18 wavetables</strong> and multiple training phases. Each sample is a 2-second stereo render at <strong>44.1 kHz</strong>, giving roughly <strong>107 hours</strong> of generated training audio. Rather than trying to randomize everything at once, the data is built using a curriculum strategy: early phases focus on wavetable identity and position, later phases introduce warp modes, then unison and stereo controls, and then multi-oscillator combinations. This keeps the learning problem structured and avoids immediately exploding the parameter space.</p>
+<h4>Audio representation</h4>
+<p>The model does not operate on raw waveforms. Audio is converted into <strong>LRMS mel spectrograms</strong>, which preserve both spectral content and stereo information.</p>
+<p>Instead of reducing the sound to mono, the preprocessing stack creates four channels:
+- <strong>Left</strong>
+- <strong>Right</strong>
+- <strong>Mid</strong>
+- <strong>Side</strong></p>
+<p>That is important for a synthesizer like Serum, where stereo width, unison detune, and blend have a clear spatial effect that would be weakened or lost in a mono representation. Spectrograms are computed with <strong>128 mel bins</strong>, <strong>172 time frames</strong>, a <strong>2048-point FFT</strong>, and a <strong>512-sample hop length</strong>. All features are precomputed and cached to disk as tensors so training is not bottlenecked by feature extraction.</p>
+<h4>Model architecture</h4>
+<p>The core model is a <strong>7-layer convolutional neural network</strong> implemented in <strong>PyTorch</strong>. It uses a shared encoder and multiple task-specific output heads.</p>
+<p>The encoder takes the 4-channel LRMS spectrogram and progressively downsamples it into a compact <strong>256-dimensional latent representation</strong>. That latent vector is then passed to separate heads for different parameter types:
+- <strong>categorical heads</strong> for wavetable selection, warp modes, and voice count
+- <strong>regression heads</strong> for wavetable position, warp amount, detune, stereo width, blend, and level</p>
+<p>This matters because the parameters are not all the same kind of prediction problem. Some are discrete class choices, others are bounded continuous controls, and they need different losses and output constraints.</p>
+<p>Before full parameter training, the encoder is first pretrained as part of an <strong>autoencoder</strong>. The idea is to teach the model to build a general-purpose representation of timbre before asking it to predict exact synth controls. After pretraining, the decoder is discarded and the encoder weights are transferred into the final multi-head inference model.</p>
+<h4>Training strategy</h4>
+<p>The model is trained as a multi-task system with weighted losses per parameter. Categorical targets use cross-entropy losses, continuous targets use MAE or MSE depending on the parameter, and the training loop uses <strong>phase masking</strong> so each batch only trains the heads that are relevant for that curriculum phase.</p>
+<p>That allows one architecture to grow with the dataset instead of training separate models for each subset of parameters. Early phases establish a strong representation of basic timbral structure, while later phases add more difficult controls without resetting what the model has already learned.</p>
+<p>The optimizer is <strong>AdamW</strong> with cosine annealing, warm restarts, and early stopping. A separate lightweight CNN is also used to predict ADSR envelope parameters as a temporary measure while the main architecture remains focused on oscillator-level inference.</p>
+<h4>Preset reconstruction</h4>
+<p>Model predictions are converted back into real Serum presets.</p>
+<p>This required reverse-engineering the mapping between Serum’s internal preset fields and the actual oscillator controls used by the synthesizer. The system starts from a clean preset template, injects the predicted values into the correct internal fields, resolves wavetable references, and repackages the result using Serum’s preset format so the patch loads directly inside the plugin.</p>
+<p>That reconstruction step is what turns the project from a pure ML experiment into a working production tool. The output is a real preset file, not just a score or a visualization.</p>
+<h4>Results</h4>
+<p>The strongest results come from parameters with clear and stable spectral signatures.</p>
+<ul>
+<li><strong>Wavetable selection</strong> reached <strong>97.4% top-1 accuracy</strong></li>
+<li><strong>Warp mode 1</strong> reached <strong>78.9%</strong></li>
+<li><strong>Unison voice count</strong> reached <strong>74.0%</strong> on balanced evaluation</li>
+<li>Continuous controls such as wavetable position, detune, stereo width, and oscillator level achieved usable error ranges, with oscillator level performing especially well</li>
+</ul>
+<p>Listening tests are as important as the raw metrics here. Exact parameter recovery is often impossible because the mapping from sound to synth settings is inherently one-to-many, but the generated presets frequently capture the target’s harmonic shape, stereo character, and overall timbral identity closely enough to be musically useful with only minor adjustment.</p>
+<h4>What the project revealed</h4>
+<p>The most important result is not just that the system works. It is <em>where</em> it stops scaling cleanly.</p>
+<p>Parameters with strong spectral signatures and balanced data learn well. Parameters with entanglement or class imbalance become much harder. Warp mode 2, for example, suffered from a dataset design issue in one phase and showed how quickly the task becomes fragile when the distinctions between classes are subtle. Unison voice count also showed the limits of learning under heavily imbalanced data.</p>
+<p>That leads to the main engineering conclusion of the project: the biggest bottleneck is not the CNN architecture itself, but the cost of generating balanced data across combinations of parameters. Once filters, effects, envelopes, modulation routing, and multi-oscillator interactions are added, the number of meaningful combinations grows extremely quickly. At that point, the limiting factor becomes dataset design and coverage, not simply model size.</p>
+<h4>Outcome</h4>
+<p>The final result is a complete audio-to-preset system for Serum 2:
+- automated dataset generation at scale
+- stereo-aware audio preprocessing
+- a multi-head CNN for parameter inference
+- preset reconstruction into loadable Serum files</p>
+<p>As a capstone project, it establishes that oscillator-level inverse synthesis is practical and usable, while also making the scaling limits of the parameter-prediction approach very clear. That combination is what makes it important: it produced a working system, and it also exposed the exact technical reasons for moving beyond parameter matching toward a different class of neural synthesis system.</p></div>
+<p class="back"><a href="projects.html">Back to projects</a> | <a href="mailto:abmark88@gmail.com">Email me</a></p>
+</div>
+<div class="footer">
+<hr>
+<p><a href="index.html">Home</a> | <b>Projects</b> | <a href="resume.html">Résumé</a> | <a href="mailto:abmark88@gmail.com">Email</a></p>
+<p>Last updated: October 2026. &copy; Aidan Mark.</p>
+</div>
 </div>
 </body>
 </html>
