@@ -42,7 +42,7 @@ a:focus { outline: 1px dotted #792e20; }
 .ascii-name {
   margin: 0;
   color: #973e32;
-  font: 11px/1.04 "Courier New", Courier, monospace;
+  font: 12px/1.04 "Courier New", Courier, monospace;
   white-space: pre;
 }
 .headnote {
