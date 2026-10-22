@@ -1,27 +1,34 @@
-# Aidan Mark - classic green-room portfolio (preview only)
+# Aidan Mark — classic personal site preview
 
-This repository hosts an **independent** GitHub Pages preview. It is not the production aidanmark.dev site.
+This repository is the **GitHub Pages preview only**. It is not the live production website at aidanmark.dev.
 
-The home page follows an old-school, green-and-cream, slightly uncanny office-directory mood. The eight projects retain their **individual saved themes and original pictures** from the archived portfolio in `Documents/Portfolio/backups/website-full-2026-04-14_011314` and `Documents/Portfolio/content`.
+[Open the preview](https://akimbo-bin.github.io/aidanmark-classic-preview/)
 
-## Browse
+## What this version restores
 
-- `index.html` - ASCII-art welcome page, illustrated project filing cabinet.
-- `projects.html` - index of 8 individual files, preserving prior `#chroma`, `#robot`, `#aliens`, etc. fragments.
-- `chroma.html`, `robot.html`, `aliens.html`, `security.html`, `heaterfy.html`, `schedulebee.html`, `sonance.html`, `clients.html` - project pages with their own archive-backed wallpaper.
-- `resume.html` - short résumé.
-- `assets/` - web-sized copies of the original portfolio/game's backgrounds, screenshots and art. Originals are unchanged.
+The site uses the original ASCII name, existing personal details, and archived project imagery. Each project has its own simple HTML page and keeps its original card colours and background assets where available. The presentation is intentionally restrained: ordinary headings, old-style links, photos, tables, and long project notes. No fabricated “computer terminal” language, fake file numbers, or bracketed section IDs.
 
-The old portfolio's `custom-app:aliens` record pointed to [the playable game](https://sometimes-aliens.vercel.app/); that exact external launch URL is restored on Home, Projects and the Aliens project page.
+The full original Markdown for **Chroma / Inverse Synthesis, Campus Delivery Bot, Zero Trust, Heaterfy, ScheduleBee, and Sonance** is preserved in `notes/*.md` and statically rendered into the matching `.html` page. The wording and heading order are taken from `fabric-canvas:<id>.expandedMarkdown` in the original portfolio backup; the shorter introductions come from `card-text:<id>.bodyMarkdown`. Small corrections were limited to mangled text encoding and rewriting image URLs so the originals load on GitHub Pages.
 
-## Old-web constraints
+**Aliens and the two client sites** did not have equivalent long project Markdown stored in that archive. They use the real titles, technical tags, supplied links and documented artwork instead of made-up descriptions. The playable game link restored from `custom-app:aliens` is https://sometimes-aliens.vercel.app/.
 
-- HTML 4.01 Strict, ordinary links and tables, CSS 2-era properties only.
-- No JavaScript, frameworks, build dependencies, React, CSS animations, Flexbox/Grid, modern font loading, or gradients. One original small animated GIF from the game archive is reused as an image.
-- Courier family only; no proprietary font assets.
-- The original ASCII name remains byte-for-byte identical in the home page `<pre>`.
-- Narrow viewports can scroll the ASCII drawing horizontally without squeezing the characters.
+## Source provenance
 
-If something should be changed, edit the HTML and stylesheet directly. Nothing needs to be built.
+The material was recovered from the user's local portfolio archive:
 
-Do not publish these changes to the real production website until the owner personally reviews the preview.
+- `Documents/Portfolio/backups/localStorage-fresh-export.json`
+- `Documents/Portfolio/backups/website-full-2026-04-14_011314/public/assets/`
+- `Documents/Portfolio/content/`
+- `Documents/Portfolio/Sometimes-Aliens-Are-Not-Your-Friends/`
+
+The original content and images remain untouched in those locations. Images in `assets/` are local copies of the saved portfolio assets, the game, or (for Foster Media) a still from the originally saved card background video. The ScheduleBee Imgur images were saved locally so the linked demo thumbnail keeps working.
+
+## Technical constraints
+
+- HTML 4.01 Strict pages, CSS 2-era styling, with no JavaScript or client-side framework.
+- No CSS Grid, Flexbox, animation, modern filters, gradients, custom fonts, or external style dependencies.
+- GIF, JPG and PNG only for site assets. The existing newer-format reference images were converted into JPG for compatibility.
+- The original large ASCII name is preserved unchanged and scrolls inside its own block on small screens.
+- Sources in `notes/` remain Markdown for reference. HTML files contain the already-rendered static content; no build process runs when the page is loaded.
+
+All design changes must remain in this independent preview repository until the owner elects to move them elsewhere.

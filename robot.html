@@ -3,34 +3,71 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Aidan Mark, Edmonton. Handmade notes on software, robotics, music, and projects.">
-<title>Campus Delivery Robot - Aidan Mark</title>
-<link rel="stylesheet" type="text/css" href="style.css">
+<meta name="description" content="Aidan Mark - software, music, robotics, projects and things made in Edmonton.">
+<title>Campus Delivery Bot - Aidan Mark</title>
+<link rel="stylesheet" href="style.css" type="text/css">
 </head>
-<body class="theme-robot">
-<div class="binder" id="top">
-  <p class="topline">AIDAN MARK / PERSONAL FILES <span class="right">EDMONTON, AB / EST. ON THE WEB</span></p>
-  <p class="file-id">A / M &nbsp; : : &nbsp; CAMPUS DELIVERY ROBOT</p>
-  <p class="links">[ <a href="index.html">home</a> &nbsp; / &nbsp; <strong>projects</strong> &nbsp; / &nbsp; <a href="resume.html">resume</a> &nbsp; / &nbsp; <a href="mailto:abmark88@gmail.com">e-mail</a> ] &nbsp; <span class="stamp">* no scripts here *</span></p>
-
-  <p class="file-nav">[ <a href="projects.html#robot">&lt;&lt; project drawer</a> ] [ <a href="chroma.html">&lt; previous</a> ] [ <a href="aliens.html">next &gt;</a> ]</p>
-  <p class="file-id">FILE 02 / 08 &nbsp; : : &nbsp; ROBOTICS / HARDWARE</p>
-  <h1 class="file-h1">Campus Delivery Robot</h1>
-  <pre class="doodle">  [ LiDAR ] --&gt; [ Jetson ] --&gt; [ Teensy ] --&gt; wheels</pre>
-
-  <div class="project-intro"><p class="tech">solo build / ROS2, C++, Python, Jetson Orin Nano, Teensy 4.1</p>
-      <p>An indoor delivery robot that maps its surroundings and drives to destinations. High-level navigation runs on a Jetson; a Teensy handles the motor hardware. I wrote firmware and ROS2 nodes for serial communication, sensor integration, odometry, PID control, and LiDAR SLAM.</p>
-      <p><b>Hardware test:</b> Mapped the second floor at MacEwan University.</p></div>
-  <div class="figure"><img src="assets/robot-sketch.jpg" alt="The original robot drawing on a blue grid."><p class="caption">The original robot drawing on a blue grid.</p></div>
-<div class="figure"><img src="assets/robot-photo.jpg" alt="The real delivery robot on the workbench."><p class="caption">The real delivery robot on the workbench.</p></div>
-
-  <p class="contact-paper"><b>More:</b> <a href="projects.html">all projects</a> / <a href="resume.html">technical background</a> / <a href="mailto:abmark88@gmail.com">email Aidan</a></p>
-  <div class="foot">
-    <p class="stars">* * * * *</p>
-    <p><a href="index.html">home</a> &nbsp; / &nbsp; <a href="projects.html">all the projects</a> &nbsp; / &nbsp; <a href="resume.html">r&eacute;sum&eacute;</a> &nbsp; / &nbsp; <a href="mailto:abmark88@gmail.com">write me</a></p>
-    <p>Last edited: 22 October 2026.<br>
-       Made from ordinary HTML, old-fashioned CSS, and original project pictures. &copy; Aidan Mark.</p>
-  </div>
+<body class="robot">
+<div class="page">
+<div class="site-head">
+<p class="logo"><a href="index.html">Aidan Mark</a></p>
+<p class="nav"><a href="index.html">Home</a> | <b>Projects</b> | <a href="resume.html">Résumé</a> | <a href="mailto:abmark88@gmail.com">Email</a></p>
+</div>
+<div class="body-text">
+<h1>Campus Delivery Bot</h1>
+<p class="tech">ROS2 · Jetson Orin Nano · Teensy 4.1 · LiDAR · IMU · Computer Vision · Ultrasonic Sensors · C++ · Python · Linux</p>
+<div class="short-intro"><p><strong>Stuck in a long lecture but missed breakfast?</strong></p>
+<p>I built an autonomous food delivery robot built to navigate MacEwan University’s entire campus and deliver items across real indoor environments.</p>
+<p>This project combines custom hardware, high-speed embedded control, and a full ROS2 autonomy stack. The robot can plan paths, avoid obstacles, and complete delivery runs.</p></div>
+<hr>
+<div class="writeup"><h2>SLAM Delivery Robot</h2>
+<p>This is a <strong>SLAM bot</strong> built for indoor campus delivery.<br/>
+SLAM  (<strong>simultaneous localization and mapping</strong>) bots build a map of an unknown environment while estimating its own position inside that map. In this case, the target environment was MacEwan University. The system was developed to move through indoor hallways, generate a usable map, localize within that map, and execute navigation goals between real locations on campus.</p>
+<p><img alt="robo" src="assets/robot-markdown-1776148883672-robo.png"/></p>
+<h3>Overview</h3>
+<p>The robot is built on a tracked mobile base with a cargo compartment, onboard compute, and a 360° LiDAR mounted high enough to scan the environment without self-occlusion. The original goal was indoor delivery-style navigation using LiDAR-based mapping and obstacle avoidance. Development continued beyond the original report, and the final system was able to produce a full map of MacEwan’s second floor, covering the connected buildings on that level.</p>
+<h3>Architecture</h3>
+<p>The platform is split between two control layers.</p>
+<p>A <strong>Jetson Orin Nano</strong> runs the high-level stack in <strong>ROS2 Humble</strong>. This side handles LiDAR processing, mapping, localization, navigation, and perception. It also runs the ROS nodes that connect the sensors, publish robot state, and coordinate movement.</p>
+<p>A <strong>Teensy 4.1</strong> handles the low-level side. Custom C++ firmware on the microcontroller receives velocity commands over serial, converts them into differential motor outputs, reads wheel encoders, computes odometry, and enforces safety behavior in real time. This split keeps the fast control loop on the microcontroller while leaving the Jetson free to run the more expensive robotics workloads.</p>
+<p><img alt="IMG_9627" src="assets/robot-markdown-1776148803270-IMG_9627.jpg"/></p>
+<h3>Hardware and sensing</h3>
+<p>The drivetrain uses dual <strong>24V worm gear DC motors</strong> driven through <strong>BTS7960 H-bridge modules</strong>. The robot runs on a tracked chassis, which gives it good traction and payload support, but also introduces rotational slip that has to be accounted for in the control and localization pipeline.</p>
+<p>The sensing stack includes:
+- <strong>RPLiDAR A1M8</strong> for 2D 360° scan data
+- <strong>wheel encoders</strong> for odometry
+- <strong>HC-SR04 ultrasonic sensing</strong> for close-range fail-safe stopping
+- <strong>IMU</strong> for additional motion data
+- <strong>USB camera</strong> for computer-vision-based obstacle and person awareness</p>
+<p>The Jetson and sensors are powered separately from the drivetrain so motor load does not interfere with compute stability.</p>
+<h3>Software stack</h3>
+<p>The ROS2 stack is launched from a navigation entry point that brings up the core robot nodes in order.</p>
+<p>A custom <strong>Teensy bridge node</strong> connects the microcontroller to ROS over serial. It publishes odometry and distance data, subscribes to <code>/cmd_vel</code>, and forwards motion commands to the firmware. A separate movement controller handles higher-level motion requests and command timing.</p>
+<p>For mapping, the robot uses <strong>SLAM Toolbox</strong> in asynchronous mode. LiDAR scans are provided through the <code>sllidar_ros2</code> driver, and static transforms connect the laser frame to <code>base_link</code> so scans can be placed correctly in the robot frame. The resulting occupancy grid is visualized live in <strong>Foxglove</strong>, which was also used for debugging transforms, odometry, and map quality during testing.</p>
+<p><img alt="Screenshot 2025-04-03 022017" src="assets/robot-markdown-1776148772928-Screenshot_2025-04-03_022017.png"/></p>
+<p>The navigation layer was later extended with <strong>Nav2</strong> for autonomous goal execution. Once a map exists, the robot can localize within it, plan a path to a target, and follow that path through the building.</p>
+<h3>Motion control and safety</h3>
+<p>The firmware on the Teensy is structured around serial communication, motion control, encoder handling, and robot state management.</p>
+<p>Incoming <code>CMD_VEL</code> commands are parsed and translated into track speeds. A proportional control layer and a PID-based balancing routine are used to reduce drift and keep straight-line movement stable. Encoder deltas are converted into odometry and sent back to the Jetson so the higher-level stack can localize and plan.</p>
+<p>Safety logic runs continuously at the firmware level. If the ultrasonic sensor detects an obstacle inside the configured threshold, the robot stops immediately. Recovery timing is enforced before motion resumes. A watchdog also stops the robot if commands stop arriving, and manual STOP commands can override movement at any time. Gradual deceleration is used instead of hard cuts to reduce jerk and prevent unnecessary slippage.</p>
+<h3>What it does in practice</h3>
+<p>In operation, the robot performs the same sequence as a real indoor autonomous delivery platform:</p>
+<ol>
+<li>Start the ROS2 stack and bring up the control, sensing, and SLAM nodes  </li>
+<li>Ingest live LiDAR and odometry data  </li>
+<li>Build or load a map of the indoor environment  </li>
+<li>Localize the robot within that map  </li>
+<li>Accept navigation goals through Nav2  </li>
+<li>Plan and execute paths through hallways and shared spaces  </li>
+<li>Stop or re-route when obstacles are detected</li>
+</ol></div>
+<p class="back"><a href="projects.html">Back to projects</a> | <a href="mailto:abmark88@gmail.com">Email me</a></p>
+</div>
+<div class="footer">
+<hr>
+<p><a href="index.html">Home</a> | <b>Projects</b> | <a href="resume.html">Résumé</a> | <a href="mailto:abmark88@gmail.com">Email</a></p>
+<p>Last updated: October 2026. &copy; Aidan Mark.</p>
+</div>
 </div>
 </body>
 </html>
