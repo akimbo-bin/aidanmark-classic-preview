@@ -3,118 +3,60 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Aidan Mark in Edmonton: software, robotics, audio, experiments and other things I've made.">
+<meta name="description" content="Aidan Mark, Edmonton. Handmade notes on software, robotics, music, and projects.">
 <title>Projects - Aidan Mark</title>
 <link rel="stylesheet" type="text/css" href="style.css">
 </head>
-<body>
-<div class="page">
-  <div class="masthead">
-    <p class="top-stamp">aidan mark / personal pages <span>edmonton, alberta</span></p>
-    <h1 class="text-heading">Aidan Mark</h1>
-    <div class="ascii-window"><pre class="ascii-name">       _               ___                         ___       ___                  ___
-      dM.     68b      `MM                        `MMb     dMM&#x27;                 `MM
-     ,MMb     Y89       MM                         MMM.   ,PMM                   MM
-     d&#x27;YM.    ___   ____MM    ___    ___  __       M`Mb   d&#x27;MM    ___    ___  __ MM   __
-    ,P `Mb    `MM  6MMMMMM  6MMMMb   `MM 6MMb      M YM. ,P MM  6MMMMb   `MM 6MM MM   d&#x27;
-    d&#x27;  YM.    MM 6M&#x27;  `MM 8M&#x27;  `Mb   MMM9 `Mb     M `Mb d&#x27; MM 8M&#x27;  `Mb   MM69 &quot; MM  d&#x27;
-   ,P   `Mb    MM MM    MM     ,oMM   MM&#x27;   MM     M  YM.P  MM     ,oMM   MM&#x27;    MM d&#x27;
-   d&#x27;    YM.   MM MM    MM ,6MM9&#x27;MM   MM    MM     M  `Mb&#x27;  MM ,6MM9&#x27;MM   MM     MMdM.
-  ,MMMMMMMMb   MM MM    MM MM&#x27;   MM   MM    MM     M   YP   MM MM&#x27;   MM   MM     MMPYM.
-  d&#x27;      YM.  MM YM.  ,MM MM.  ,MM   MM    MM     M   `&#x27;   MM MM.  ,MM   MM     MM  YM.
-_dM_     _dMM__MM_ YMMMMMM_`YMMM9&#x27;Yb._MM_  _MM_   _M_      _MM_`YMMM9&#x27;Yb._MM_   _MM_  YM._</pre></div>
-    <p class="headnote">Software, sound, circuits &amp; the occasional strange idea.</p>
-  </div>
-  <div class="directory">
-    <p><b>[ pages ]</b> &nbsp; <a href="index.html">home</a> &nbsp; / &nbsp; <strong class="you-are-here">projects</strong> &nbsp; / &nbsp; <a href="resume.html">r&eacute;sum&eacute;</a> &nbsp; / &nbsp; <a href="mailto:abmark88@gmail.com">email</a></p>
-  </div>
-  <div class="content" id="top">
+<body class="theme-projects">
+<div class="binder" id="top">
+  <p class="topline">AIDAN MARK / PERSONAL FILES <span class="right">EDMONTON, AB / EST. ON THE WEB</span></p>
+  <p class="file-id">A / M &nbsp; : : &nbsp; PROJECTS</p>
+  <p class="links">[ <a href="index.html">home</a> &nbsp; / &nbsp; <strong>projects</strong> &nbsp; / &nbsp; <a href="resume.html">resume</a> &nbsp; / &nbsp; <a href="mailto:abmark88@gmail.com">e-mail</a> ] &nbsp; <span class="stamp">* no scripts here *</span></p>
 
-    <p class="crumb">you are here: projects / the longer version</p>
-    <h2><span class="section-no">01.</span> the project drawer</h2>
-    <p>Some were built on my own, some with classmates or clients. I've noted which is which. This is the less-abbreviated version of the <a href="index.html">home page index</a>.</p>
-    <p class="jump"><b>Skip to:</b>
-      <a href="#chroma">audio ML</a> /
-      <a href="#robot">robot</a> /
-      <a href="#aliens">game</a> /
-      <a href="#security">security</a> /
-      <a href="#heaterfy">Heaterfy</a> /
-      <a href="#schedulebee">ScheduleBee</a> /
-      <a href="#sonance">Sonance</a> /
-      <a href="#clients">client work</a>
-    </p>
-
-    <div class="project" id="chroma">
-      <h3><span class="entry-no">01</span> Oscillator-Level Inverse Synthesis</h3>
-      <p class="tech">solo capstone / Python, PyTorch, librosa, REAPER</p>
-      <p>A machine-learning pipeline that takes a short recording and predicts oscillator-level parameters for an editable Xfer Serum 2 preset. I wrote the data generation, mel-spectrogram processing, model training, and preset packaging.</p>
-      <p><b>Result:</b> 193,283 labelled training examples from 18 wavetables; 97.4% top-1 accuracy on <em>wavetable classification</em>. It is not a measure of complete sound recreation.</p>
-      <p class="up">[ <a href="#top">back to top</a> ]</p>
-    </div>
-
-    <div class="project" id="robot">
-      <h3><span class="entry-no">02</span> Campus Delivery Robot</h3>
-      <p class="tech">solo build / ROS2, C++, Python, Jetson Orin Nano, Teensy 4.1</p>
-      <p>An indoor delivery robot that maps its surroundings and drives to destinations. High-level navigation runs on a Jetson; a Teensy handles the motor hardware. I wrote firmware and ROS2 nodes for serial communication, sensor integration, odometry, PID control, and LiDAR SLAM.</p>
-      <p><b>Hardware test:</b> Mapped the second floor at MacEwan University.</p>
-      <p class="up">[ <a href="#top">back to top</a> ]</p>
-    </div>
-
-    <div class="project" id="aliens">
-      <h3><span class="entry-no">03</span> Sometimes Aliens Are Not Your Friends</h3>
-      <p class="tech">solo game / JavaScript, WebGL2, GLSL</p>
-      <p>A 3D game in the browser built without a game engine. It has handwritten shaders, OBJ loading, a scene and camera system, object pooling, spatial-hash collisions, frustum culling, and a light budget.</p>
-      <p><a href="https://github.com/akimbo-md/Sometimes-Aliens-Are-Not-Your-Friends">Source code on GitHub</a></p>
-      <p class="up">[ <a href="#top">back to top</a> ]</p>
-    </div>
-
-    <div class="project" id="security">
-      <h3><span class="entry-no">04</span> Zero Trust Security Review</h3>
-      <p class="tech">client / team work / Proxmox, Active Directory, AD CS, IIS, mTLS</p>
-      <p>Worked with a team on a security assessment for Universal Rail Systems. We evaluated east-west traffic and built a virtualized proof of concept for identity-based access between internal services. My work included networking, Active Directory, certificates, reverse proxies, and policy hardening.</p>
-      <p><b>Delivered:</b> Technical recommendations and a report to the client.</p>
-      <p class="up">[ <a href="#top">back to top</a> ]</p>
-    </div>
-
-    <div class="project" id="heaterfy">
-      <h3><span class="entry-no">05</span> Heaterfy</h3>
-      <p class="tech">team project / Python, PyTorch, scikit-learn, Spotify API</p>
-      <p>A playlist recommendation system using audio features, metadata, genre embeddings, and clustering. I led development of the 16-dimensional genre representation, Spotify connection, Streamlit interface, and evaluation.</p>
-      <p><b>Classroom evaluation:</b> Twelve listeners rated recommendations an average of 83/100.</p>
-      <p class="up">[ <a href="#top">back to top</a> ]</p>
-    </div>
-
-    <div class="project" id="schedulebee">
-      <h3><span class="entry-no">06</span> ScheduleBee</h3>
-      <p class="tech">Android application / shift planning</p>
-      <p>A scheduling application for assigning shifts, checking availability, and exporting schedules. Designed around the fiddly job of fitting complicated staffing decisions onto a phone screen.</p>
-      <p><a href="https://www.youtube.com/watch?v=6hwdKDMJOw0">Video demo</a></p>
-      <p class="up">[ <a href="#top">back to top</a> ]</p>
-    </div>
-
-    <div class="project" id="sonance">
-      <h3><span class="entry-no">07</span> Sonance</h3>
-      <p class="tech">music library tool / iTunes XML, Spotify</p>
-      <p>A tool to read an iTunes library, recreate its playlists in Spotify, and track changes without making the user reorganize their local collection.</p>
-      <p class="up">[ <a href="#top">back to top</a> ]</p>
-    </div>
-
-    <div class="project" id="clients">
-      <h3><span class="entry-no">08</span> Client websites</h3>
-      <p class="tech">freelance / WordPress, content management, automation</p>
-      <p>Websites and operational tools including scheduling, bookings, calendar integration, and content editing.</p>
-      <ul>
-        <li><a href="https://fostermedia.ca/">Foster Media</a> &mdash; photography website and booking workflow</li>
-        <li><a href="https://lucycook.art/">Lucy Cook Art</a> &mdash; artist website and portfolio management</li>
-      </ul>
-      <p class="up">[ <a href="#top">back to top</a> ]</p>
-    </div>
-  </div>
+  <p class="crumb">index of /aidan/projects/ &nbsp; -- &nbsp; 8 things, several kinds of odd</p>
+  <h1 class="dir-heading">The project drawer</h1>
+  <p>Some were solo projects, some involved classmates or clients. The original notes and artwork live in the files below. Pick something and wander in.</p>
+  <p class="dir-sub">[ images are links, too ] &nbsp; [ no loading screens ] &nbsp; [ mostly ]</p>
+  <table class="file-table" cellspacing="0" cellpadding="0" summary="Project folders">
+    <tr class="chroma" id="chroma">
+      <td class="preview"><a href="chroma.html"><img src="assets/chroma-osc.jpg" width="138" alt="Inverse synthesis preview"></a></td>
+      <td class="details"><h3>01. <a href="chroma.html">Inverse synthesis</a></h3><p>Turning a sound into editable synthesizer settings.</p><p class="note">audio / machine learning</p><p class="open">[ <a href="chroma.html">open project file &gt;&gt;</a> ]</p></td>
+    </tr>
+    <tr class="robot" id="robot">
+      <td class="preview"><a href="robot.html"><img src="assets/robot-sketch.jpg" width="138" alt="Campus delivery robot preview"></a></td>
+      <td class="details"><h3>02. <a href="robot.html">Campus delivery robot</a></h3><p>A real indoor robot, complete with wheels and problems.</p><p class="note">robotics / C++</p><p class="open">[ <a href="robot.html">open project file &gt;&gt;</a> ]</p></td>
+    </tr>
+    <tr class="aliens" id="aliens">
+      <td class="preview"><a href="aliens.html"><img src="assets/aliens-screen.jpg" width="138" alt="Sometimes Aliens Are Not Your Friends preview"></a></td>
+      <td class="details"><h3>03. <a href="aliens.html">Sometimes Aliens Are Not Your Friends</a></h3><p>A 3D browser game with a handwritten renderer. Yes, you can play it.</p><p class="note">game / WebGL2</p><p class="open">[ <a href="aliens.html">open project file &gt;&gt;</a> ] &nbsp; [ <a href="https://sometimes-aliens.vercel.app/">play game</a> ]</p></td>
+    </tr>
+    <tr class="security" id="security">
+      <td class="preview"><a href="security.html"><img src="assets/security-topology.jpg" width="138" alt="Zero Trust security review preview"></a></td>
+      <td class="details"><h3>04. <a href="security.html">Zero Trust security review</a></h3><p>Network diagrams, identity and services talking safely.</p><p class="note">systems / security</p><p class="open">[ <a href="security.html">open project file &gt;&gt;</a> ]</p></td>
+    </tr>
+    <tr class="heaterfy" id="heaterfy">
+      <td class="preview"><a href="heaterfy.html"><img src="assets/heaterfy-art.jpg" width="138" alt="Heaterfy preview"></a></td>
+      <td class="details"><h3>05. <a href="heaterfy.html">Heaterfy</a></h3><p>Music recommendations based on what songs sound like.</p><p class="note">music / machine learning</p><p class="open">[ <a href="heaterfy.html">open project file &gt;&gt;</a> ]</p></td>
+    </tr>
+    <tr class="schedulebee" id="schedulebee">
+      <td class="preview"><a href="schedulebee.html"><img src="assets/schedulebee-shot.jpg" width="138" alt="ScheduleBee preview"></a></td>
+      <td class="details"><h3>06. <a href="schedulebee.html">ScheduleBee</a></h3><p>An Android app for the surprisingly fiddly problem of schedules.</p><p class="note">Android / planning</p><p class="open">[ <a href="schedulebee.html">open project file &gt;&gt;</a> ]</p></td>
+    </tr>
+    <tr class="sonance" id="sonance">
+      <td class="preview"><a href="sonance.html"><img src="assets/sonance-disc.png" width="138" alt="Sonance preview"></a></td>
+      <td class="details"><h3>07. <a href="sonance.html">Sonance</a></h3><p>Moving iTunes playlists into Spotify without starting over.</p><p class="note">music / desktop</p><p class="open">[ <a href="sonance.html">open project file &gt;&gt;</a> ]</p></td>
+    </tr>
+    <tr class="clients" id="clients">
+      <td class="preview"><a href="clients.html"><img src="assets/clients-art.jpg" width="138" alt="Client websites preview"></a></td>
+      <td class="details"><h3>08. <a href="clients.html">Client websites</a></h3><p>Practical websites and tools for actual people.</p><p class="note">web / freelance</p><p class="open">[ <a href="clients.html">open project file &gt;&gt;</a> ]</p></td>
+    </tr>
+  </table>
+  <p class="stamp">[ <a href="#top">back to the top</a> ]</p>
   <div class="foot">
-    <p class="stars">* &nbsp; * &nbsp; * &nbsp; * &nbsp; *</p>
-    <p>That's all for now. &nbsp; <a href="index.html">home</a> / <a href="projects.html">projects</a> / <a href="resume.html">r&eacute;sum&eacute;</a> / <a href="mailto:abmark88@gmail.com">say hello</a></p>
-    <p class="fineprint">Last edited 22 October 2026. Hand-written HTML &amp; CSS; no scripts.<br>
-       &copy; Aidan Mark.</p>
+    <p class="stars">* * * * *</p>
+    <p><a href="index.html">home</a> &nbsp; / &nbsp; <a href="projects.html">all the projects</a> &nbsp; / &nbsp; <a href="resume.html">r&eacute;sum&eacute;</a> &nbsp; / &nbsp; <a href="mailto:abmark88@gmail.com">write me</a></p>
+    <p>Last edited: 22 October 2026.<br>
+       Made from ordinary HTML, old-fashioned CSS, and original project pictures. &copy; Aidan Mark.</p>
   </div>
 </div>
 </body>
